@@ -46,4 +46,19 @@ public class EmailProducer {
 		System.out.println(model.getFromUserName());
 		System.out.println(model.getMessage());
 	}
+	
+	/**
+	 * error handler
+	 * 
+	 * For each input binding, Spring Cloud Stream creates a dedicated error channel with the 
+	 * following semantics <channel-name>.<group-name>.errors
+	 */
+	@ServiceActivator(inputChannel =EmailChannel.EMAIL_INPUTCHANNEL+ ".emailproducerqueue.errors")
+	public void error(Message<?> message){
+		
+		System.out.println("------------------error handler called--------------------!!");
+		System.out.println("handling error: " + message);
+	
+		
+	}
 }
