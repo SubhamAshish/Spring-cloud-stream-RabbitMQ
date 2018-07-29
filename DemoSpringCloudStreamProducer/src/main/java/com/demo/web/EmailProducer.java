@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.integration.annotation.Transformer;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,8 +45,11 @@ public class EmailProducer {
 	@StreamListener(value=EmailChannel.EMAIL_INPUTCHANNEL)
 	public void consumeMessage(EmailModel model){
 		
+		
+		System.out.println("Consumer called:::::");
 		System.out.println(model.getFromUserName());
 		System.out.println(model.getMessage());
+		throw new RuntimeException("BOOM!");
 	}
 	
 	/**
@@ -53,7 +58,7 @@ public class EmailProducer {
 	 * For each input binding, Spring Cloud Stream creates a dedicated error channel with the 
 	 * following semantics <channel-name>.<group-name>.errors
 	 */
-	@ServiceActivator(inputChannel =EmailChannel.EMAIL_INPUTCHANNEL+ ".emailproducerqueue.errors")
+	@Transformer(inputChannel =EmailChannel.EMAIL_INPUTCHANNEL+ ".emailproducerqueue.errors")
 	public void error(Message<?> message){
 		
 		System.out.println("------------------error handler called--------------------!!");

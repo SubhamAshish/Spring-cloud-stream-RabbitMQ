@@ -17,4 +17,6 @@ public interface EmailChannel {
 	@Output(EmailChannel.EMAIL_OUTPUTCHANNEL)
 	MessageChannel emailOutputChannel();
 
+	
+	
 }
