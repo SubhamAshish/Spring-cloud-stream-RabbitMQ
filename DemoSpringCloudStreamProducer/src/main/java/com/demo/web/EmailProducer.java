@@ -2,11 +2,11 @@ package com.demo.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.integration.annotation.Transformer;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +25,7 @@ public class EmailProducer {
 	private EmailChannel emailChannel;
 	
 	@RequestMapping(value="/check")
+	@Transactional
 	public ResponseEntity<String> produceMessage(){
 		
 		EmailModel email = new EmailModel();
@@ -34,8 +35,8 @@ public class EmailProducer {
 		
 		emailChannel.emailOutputChannel().send(MessageBuilder.withPayload(email).build());
 		
-		
-		return new ResponseEntity<String>("produced",HttpStatus.OK);
+		throw new RuntimeException();
+//		return new ResponseEntity<String>("produced",HttpStatus.OK);
 	}
 
 	/**
@@ -43,6 +44,7 @@ public class EmailProducer {
 	 */
 	
 	@StreamListener(value=EmailChannel.EMAIL_INPUTCHANNEL)
+	@Transactional
 	public void consumeMessage(EmailModel model){
 		
 		
