@@ -1,4 +1,6 @@
 # Spring-cloud-stream-RabbitMQ
+#some reference sites
+https://cloud.spring.io/spring-cloud-static/spring-cloud-stream-binder-rabbit/2.1.0.RC3/single/spring-cloud-stream-binder-rabbit.html
 
 https://www.rabbitmq.com/dlx.html
 https://medium.com/@kiennguyen88/rabbitmq-delay-retry-schedule-with-dead-letter-exchange-31fb25a440fc
